@@ -38,12 +38,22 @@ class OxExperience {
             this.onHitResult(hitResult);
         });
 
-        this._model = await this.loadModel("asset.glb");const animations = gltf.animations;
-activateAllActions();
-animate();} 
-        
-        this._model.visible = false;
-        this._scene.add(this._model);
+        if (intersects.length > 0 && intersects[0].object == floor) {
+    // Load a 3D model and add it to the scene over touched position
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load("asset.glb", (gltf) => {
+      const model = gltf.scene;
+      const animations = gltf.animations;
+      model.position.set(intersects[0].point.x, intersects[0].point.y, intersects[0].point.z);
+      // Model looking to the camera on Y axis
+      model.rotation.y = Math.atan2(camera.position.x - model.position.x, camera.position.z - model.position.z);
+      scene.add(model);
+      // Play model animation
+      const mixer = new THREE.AnimationMixer(model);
+      const action = mixer.clipAction(animations[0]);
+      action.play();
+      animationMixers.push(mixer);
+    });
 
     }
 
