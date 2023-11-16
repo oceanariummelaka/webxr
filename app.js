@@ -38,16 +38,10 @@ class OxExperience {
             this.onHitResult(hitResult);
         });
 
-        this._model = await this.loadModel("asset.glb");
-        // disable colorWrite on room wrapper mesh to create portal illusion
-        this._model.traverse((object) => {
-            if (object.isMesh) {
-                if (object.userData.occlusion) {
-                    object.material.colorWrite = false;
-                    object.material.side = THREE.DoubleSide;
-                }
-            }
-        });
+        this._model = await this.loadModel("asset.glb");const animations = gltf.animations;
+activateAllActions();
+animate();} 
+        
         this._model.visible = false;
         this._scene.add(this._model);
 
